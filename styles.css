@@ -261,9 +261,14 @@ a:hover {
     color: red;
 }
 
-/* img:hover {
-    cursor: pointer;
-} */
+#techspecs p {
+    font-family: 'Courier New', Courier, monospace;
+    line-height: 11pt;
+}
+
+uppercase {
+    text-transform: uppercase;
+}
 
 
 .stills-grid {
@@ -384,7 +389,7 @@ a:hover {
 
     .logo-container svg {
         position: relative; 
-        width: 25vw;
+        width: 50vw;
 
     }
 
