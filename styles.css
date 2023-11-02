@@ -235,7 +235,7 @@ svg:hover path[fill="black"] {
     position: fixed;
     font-size: 14pt;
     text-align: center;
-    bottom: 10px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     padding: 10px 20px;
@@ -381,6 +381,7 @@ uppercase {
 
     .notification {
         font-size: 12pt;
+        bottom: 50pt;
     }
 
     .col-1-container {
