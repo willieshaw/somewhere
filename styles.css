@@ -217,6 +217,7 @@ p:hover, h1:hover {
     /* display: none; */
     /* width: 100%; */
     margin-top: -10pt;
+    width: 80%;
 
     /* height: auto; */
 }
@@ -254,21 +255,6 @@ svg:hover path[fill="black"] {
 .tablet h1 {
     margin-bottom: 10pt;
     margin-top: 20pt;
-}
-
-#sticky-nav {
-    display: none;
-    position: fixed;
-    top: 105pt;
-    right: 11pt;
-    list-style-type: none;
-    padding-left: 0;
-    text-align: right;
-    z-index: 100;
-    font-weight: bold;
-    font-size: 12pt;
-    line-height: 0.1;
-    text-transform: uppercase;
 }
 
 a:hover {
@@ -398,6 +384,8 @@ a:hover {
 
     .logo-container svg {
         position: relative; 
+        width: 25vw;
+
     }
 
 
