@@ -357,7 +357,7 @@ a:hover {
     }
 
     .col-1 {
-        position: fixed;
+        /* position: relative; */
     }
     .col-2, .col-3, .col-4, .col-5, .col-6 {
         grid-column-start: 2;
@@ -371,7 +371,6 @@ a:hover {
     body {
         padding: 10px;
     }
-
 
     p {
         text-align: left;
@@ -393,11 +392,14 @@ a:hover {
         font-size: 12pt;
     }
 
-    .logo-container svg {
-        max-height: 100vw;
-        position: absolute;
-
+    .col-1-container {
+        position: fixed; 
     }
+
+    .logo-container svg {
+        position: relative; 
+    }
+
 
     .tablet {
         display: none;
