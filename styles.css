@@ -209,7 +209,7 @@ p {
     hyphens: auto;
 }
 
-p:hover, h1:hover {
+p:hover {
     color: red;
     cursor: pointer;
 }
@@ -233,7 +233,11 @@ p:hover, h1:hover {
 }
 
 svg:hover path[fill="black"] {
-    fill: red;
+    fill: darkgreen;
+}
+svg:hover path[fill="white"] {
+    fill: blueviolet;
+    mix-blend-mode: exclusion;
 }
 
 .notification {
