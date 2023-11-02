@@ -50,7 +50,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 copyToClipboard(section, header.textContent)();
             }
         });
-        
         // Hover event listener
         header.addEventListener("mouseenter", function() {
             const sectionId = header.getAttribute('data-section-id');
@@ -70,5 +69,3 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
-
-
