@@ -186,6 +186,11 @@ small {
     margin-top: 10pt;
 }
 
+#email {
+    font-size: 9pt;
+    padding-bottom: 0pt;
+}
+
 small strong {
     font-size: 9pt;
     text-transform: capitalize;
