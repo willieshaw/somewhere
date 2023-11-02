@@ -40,9 +40,9 @@ body {
 }
 
 
-html {
+/* html {
     scroll-behavior: smooth;
-}
+}*/
 
 .content {
     display: grid;
