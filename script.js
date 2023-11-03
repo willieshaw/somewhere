@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Display notification
             if (element.tagName === "P") {
-                headerText = element.querySelector("strong") ? element.querySelector("strong").textContent : "Text";
+                headerText = element.querySelector("strong") ? element.querySelector("strong").textContent : "Email";
                 notification.textContent = headerText + " copied to clipboard";
             } else {
                 notification.textContent = '"' + headerText + '" section copied to clipboard';
@@ -86,3 +86,76 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
+
+// Get the modal
+var modal = document.getElementById('imageModal');
+
+// Get the modal image and the caption
+var modalImg = document.getElementById("img01");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// Intialize index
+var currentIndex = 0;
+
+// Assign an onclick event to every image in the stills-grid
+var images = document.querySelectorAll('.stills-grid img');
+
+images.forEach((image, index) => {
+    image.onclick = function() {
+      modal.style.display = "block";
+      modalImg.src = this.src;
+      currentIndex = index;
+    };
+  });
+
+// currentIndex = (currentIndex + 1) % images.length;
+// changeImage(currentIndex);
+
+// Assign onclick event on the modal content to navigate through images
+modalImg.onclick = function(event) {
+  if (event.offsetX < this.clientWidth / 2) {
+    // Previous image
+    currentIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
+  } else {
+    // Next image
+    currentIndex = currentIndex === images.length - 1 ? 0 : currentIndex + 1;
+  }
+  modalImg.src = images[currentIndex].src;
+  modalImg.dataset.currentIndex = currentIndex;
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modalImg, close it
+window.onclick = function(event) {
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+}
+
+// Allow the user to close the modal with the Escape key
+document.onkeydown = function(event) {
+  if (event.key === "Escape") {
+    modal.style.display = "none";
+  }
+}
+
+
+window.onkeyup = function(event) {
+    if (event.key === 'Escape') {
+      modal.style.display = "none";
+    } else if (event.key === 'ArrowRight') {
+        currentIndex = currentIndex === images.length - 1 ? 0 : currentIndex + 1;
+    } else if (event.key === 'ArrowLeft') {
+        currentIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
+    }
+    modalImg.src = images[currentIndex].src;
+    modalImg.dataset.currentIndex = currentIndex;
+  };
+
+  
