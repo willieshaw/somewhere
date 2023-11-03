@@ -1,12 +1,12 @@
 // Copy to clipboard functionality and notification
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
     const paragraphs = document.querySelectorAll("p");
     const headers = document.querySelectorAll("h1[data-section-id]");
     const notification = document.getElementById("notification");
 
     const copyToClipboard = (element, headerText) => {
-        return function () {
+        return function() {
             const fullText = element.textContent.split('\n').map(line => line.trim()).join('\n').trim();
 
             // Copy to clipboard
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 notification.textContent = '"' + headerText + '" section copied to clipboard';
             }
-
+            
             notification.style.display = "block";
             notification.style.opacity = "1";
 
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     headers.forEach(header => {
-        header.addEventListener("click", function () {
+        header.addEventListener("click", function() {
             const sectionId = header.getAttribute('data-section-id');
             const section = document.getElementById(sectionId);
             if (section) {
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
         // Hover event listener
-        header.addEventListener("mouseenter", function () {
+        header.addEventListener("mouseenter", function() {
             const sectionId = header.getAttribute('data-section-id');
             const section = document.getElementById(sectionId);
             if (section) {
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         // Mouse leave event listener
-        header.addEventListener("mouseleave", function () {
+        header.addEventListener("mouseleave", function() {
             const sectionId = header.getAttribute('data-section-id');
             const section = document.getElementById(sectionId);
             if (section) {
@@ -100,69 +100,72 @@ var images = document.querySelectorAll('.stills-grid img');
 
 // Function to update the modal image
 function updateModalImage(index) {
-    currentImageIndex = index;
-    modalImg.src = images[currentImageIndex].src;
-    modalImg.onload = function () {
-        var windowHeight = window.innerHeight;
-        var imgHeight = modalImg.clientHeight;
-        var margin = (windowHeight - imgHeight) / 2;
-        modalImg.style.marginTop = margin > 0 ? margin + 'px' : '0px';
-    };
+  currentImageIndex = index;
+  modalImg.src = images[currentImageIndex].src;
+  modalImg.onload = function() {
+    var windowHeight = window.innerHeight;
+    var imgHeight = modalImg.clientHeight;
+    var margin = (windowHeight - imgHeight) / 2;
+    modalImg.style.marginTop = margin > 0 ? margin + 'px' : '0px';
+  };
 }
 
 // Iterate through the grid images and bind click event
-images.forEach(function (image, index) {
-    image.onclick = function () {
-        modal.style.display = "block";
-        updateModalImage(index);
-    };
+images.forEach(function(image, index) {
+  image.onclick = function(){
+    modal.style.display = "block";
+    updateModalImage(index);
+    document.body.style.overflow = 'hidden';
+  };
 });
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function () {
-    modal.style.display = "none";
+span.onclick = function() { 
+  modal.style.display = "none";
+  document.body.style.overflow = '';
 }
 
 // Add event listeners for arrow keys
-window.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') {
-        modal.style.display = "none";
-    } else if (e.key === 'ArrowRight') {
-        if (currentImageIndex < images.length - 1) {
-            updateModalImage(currentImageIndex + 1);
-        }
-    } else if (e.key === 'ArrowLeft') {
-        if (currentImageIndex > 0) {
-            updateModalImage(currentImageIndex - 1);
-        }
+window.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    modal.style.display = "none";
+  } else if (e.key === 'ArrowRight') {
+    if (currentImageIndex < images.length - 1) {
+      updateModalImage(currentImageIndex + 1);
     }
+  } else if (e.key === 'ArrowLeft') {
+    if (currentImageIndex > 0) {
+      updateModalImage(currentImageIndex - 1);
+    }
+  }
 });
 
 // Close the modal if the user clicks outside of the image
-window.onclick = function (event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+    document.body.style.overflow = '';
+  }
 };
 
 // Function to handle click on left/right half of the image
 function onImageClick(event) {
-    var xClick = event.clientX;
-    var imgWidth = modalImg.clientWidth;
-    var imgRect = modalImg.getBoundingClientRect();
-    var imgLeftSide = imgRect.left;
-
-    if (xClick - imgLeftSide < imgWidth / 2) {
-        // Click on the left half
-        if (currentImageIndex > 0) {
-            updateModalImage(currentImageIndex - 1);
-        }
-    } else {
-        // Click on the right half
-        if (currentImageIndex < images.length - 1) {
-            updateModalImage(currentImageIndex + 1);
-        }
+  var xClick = event.clientX;
+  var imgWidth = modalImg.clientWidth;
+  var imgRect = modalImg.getBoundingClientRect();
+  var imgLeftSide = imgRect.left;
+  
+  if (xClick - imgLeftSide < imgWidth / 2) {
+    // Click on the left half
+    if (currentImageIndex > 0) {
+      updateModalImage(currentImageIndex - 1);
     }
+  } else {
+    // Click on the right half
+    if (currentImageIndex < images.length - 1) {
+      updateModalImage(currentImageIndex + 1);
+    }
+  }
 }
 
 // Bind click event to the image for navigation
@@ -175,29 +178,29 @@ var touchEndX = 0;
 
 // Function to handle the start of a touch
 function touchStart(event) {
-    touchStartX = event.touches[0].clientX;
+  touchStartX = event.touches[0].clientX;
 }
 
 // Function to handle the end of a touch
 function touchEnd(event) {
-    touchEndX = event.changedTouches[0].clientX;
-    handleSwipeGesture();
+  touchEndX = event.changedTouches[0].clientX;
+  handleSwipeGesture();
 }
 
 // Function to determine and handle swipe direction
 function handleSwipeGesture() {
-    if (touchEndX < touchStartX) {
-        // Swiped left, go to next image
-        if (currentImageIndex < images.length - 1) {
-            updateModalImage(currentImageIndex + 1);
-        }
+  if (touchEndX < touchStartX) {
+    // Swiped left, go to next image
+    if (currentImageIndex < images.length - 1) {
+      updateModalImage(currentImageIndex + 1);
     }
-    if (touchEndX > touchStartX) {
-        // Swiped right, go to previous image
-        if (currentImageIndex > 0) {
-            updateModalImage(currentImageIndex - 1);
-        }
+  }
+  if (touchEndX > touchStartX) {
+    // Swiped right, go to previous image
+    if (currentImageIndex > 0) {
+      updateModalImage(currentImageIndex - 1);
     }
+  }
 }
 
 // Add touch event listeners to the image
@@ -205,21 +208,7 @@ modalImg.addEventListener('touchstart', touchStart, false);
 modalImg.addEventListener('touchend', touchEnd, false);
 
 
-// Function to disable scrolling
-function disableScrolling() {
-    document.body.classList.add("no-scroll");
-}
-
-// Function to enable scrolling
-function enableScrolling() {
-    document.body.classList.remove("no-scroll");
-}
-
-// Call disableScrolling when the modal is opened
-modal.addEventListener('show', disableScrolling);
-
-// Call enableScrolling when the modal is closed
-modal.addEventListener('hide', enableScrolling);
 
 
 
+  

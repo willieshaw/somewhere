@@ -318,18 +318,6 @@ uppercase {
     cursor: pointer;
 }
 
-.no-scroll {
-    overflow-y: hidden;
-    /* Hide scrollbars */
-    touch-action: none;
-    /* Disable touch scrolling on touch-enabled devices */
-    position: fixed;
-    /* Prevent scrolling on all devices */
-    width: 100%;
-    /* Prevent width changes */
-}
-
-
 
 @media (max-width: 999px) {
     .content {
@@ -416,8 +404,6 @@ uppercase {
         padding: 10px;
     }
 
-
-
     p {
         text-align: left;
     }
@@ -457,7 +443,7 @@ uppercase {
 
     .stills-grid {
         display: grid;
-        gap: 5px;
+        gap: 2px;
         grid-template-columns: repeat(2, 1fr);
     }
 
