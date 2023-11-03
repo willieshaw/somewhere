@@ -117,9 +117,15 @@ h1 {
     line-height: 1;
 }
 
-#stills h1 {
-    pointer-events: none;
+
+#somewhere h1:hover, #stills-tablet h1:hover {
+    color: grey;
 }
+
+#stills h1:hover {
+    color: grey;
+}
+
 
 h2 {
     font-size: 14pt;
@@ -306,7 +312,7 @@ uppercase {
   
   .close:hover,
   .close:focus {
-    color: #ff0000;
+    color: red;
     text-decoration: none;
     cursor: pointer;
   }
