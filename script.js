@@ -88,74 +88,122 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // Get the modal
-var modal = document.getElementById('imageModal');
-
-// Get the modal image and the caption
+var modal = document.getElementById('myModal');
+// Get the image and insert it inside the modal
 var modalImg = document.getElementById("img01");
-
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
-
-// Intialize index
-var currentIndex = 0;
-
-// Assign an onclick event to every image in the stills-grid
+// Variable to keep track of the current image index
+var currentImageIndex = 0;
+// Get the array of images
 var images = document.querySelectorAll('.stills-grid img');
 
-images.forEach((image, index) => {
-    image.onclick = function() {
-      modal.style.display = "block";
-      modalImg.src = this.src;
-      currentIndex = index;
-    };
-  });
-
-// currentIndex = (currentIndex + 1) % images.length;
-// changeImage(currentIndex);
-
-// Assign onclick event on the modal content to navigate through images
-modalImg.onclick = function(event) {
-  if (event.offsetX < this.clientWidth / 2) {
-    // Previous image
-    currentIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
-  } else {
-    // Next image
-    currentIndex = currentIndex === images.length - 1 ? 0 : currentIndex + 1;
-  }
-  modalImg.src = images[currentIndex].src;
-  modalImg.dataset.currentIndex = currentIndex;
+// Function to update the modal image
+function updateModalImage(index) {
+  currentImageIndex = index;
+  modalImg.src = images[currentImageIndex].src;
+  modalImg.onload = function() {
+    var windowHeight = window.innerHeight;
+    var imgHeight = modalImg.clientHeight;
+    var margin = (windowHeight - imgHeight) / 2;
+    modalImg.style.marginTop = margin > 0 ? margin + 'px' : '0px';
+  };
 }
 
+// Iterate through the grid images and bind click event
+images.forEach(function(image, index) {
+  image.onclick = function(){
+    modal.style.display = "block";
+    updateModalImage(index);
+  };
+});
+
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
+span.onclick = function() { 
   modal.style.display = "none";
 }
 
-// When the user clicks anywhere outside of the modalImg, close it
-window.onclick = function(event) {
-  if (event.target === modal) {
+// Add event listeners for arrow keys
+window.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
     modal.style.display = "none";
-  }
-}
-
-// Allow the user to close the modal with the Escape key
-document.onkeydown = function(event) {
-  if (event.key === "Escape") {
-    modal.style.display = "none";
-  }
-}
-
-
-window.onkeyup = function(event) {
-    if (event.key === 'Escape') {
-      modal.style.display = "none";
-    } else if (event.key === 'ArrowRight') {
-        currentIndex = currentIndex === images.length - 1 ? 0 : currentIndex + 1;
-    } else if (event.key === 'ArrowLeft') {
-        currentIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
+  } else if (e.key === 'ArrowRight') {
+    if (currentImageIndex < images.length - 1) {
+      updateModalImage(currentImageIndex + 1);
     }
-    modalImg.src = images[currentIndex].src;
-    modalImg.dataset.currentIndex = currentIndex;
-  };
+  } else if (e.key === 'ArrowLeft') {
+    if (currentImageIndex > 0) {
+      updateModalImage(currentImageIndex - 1);
+    }
+  }
+});
+
+// Close the modal if the user clicks outside of the image
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};
+
+// Function to handle click on left/right half of the image
+function onImageClick(event) {
+  var xClick = event.clientX;
+  var imgWidth = modalImg.clientWidth;
+  var imgRect = modalImg.getBoundingClientRect();
+  var imgLeftSide = imgRect.left;
+  
+  if (xClick - imgLeftSide < imgWidth / 2) {
+    // Click on the left half
+    if (currentImageIndex > 0) {
+      updateModalImage(currentImageIndex - 1);
+    }
+  } else {
+    // Click on the right half
+    if (currentImageIndex < images.length - 1) {
+      updateModalImage(currentImageIndex + 1);
+    }
+  }
+}
+
+// Bind click event to the image for navigation
+modalImg.onclick = onImageClick;
+
+
+// Variables to track touch start and end points
+var touchStartX = 0;
+var touchEndX = 0;
+
+// Function to handle the start of a touch
+function touchStart(event) {
+  touchStartX = event.touches[0].clientX;
+}
+
+// Function to handle the end of a touch
+function touchEnd(event) {
+  touchEndX = event.changedTouches[0].clientX;
+  handleSwipeGesture();
+}
+
+// Function to determine and handle swipe direction
+function handleSwipeGesture() {
+  if (touchEndX < touchStartX) {
+    // Swiped left, go to next image
+    if (currentImageIndex < images.length - 1) {
+      updateModalImage(currentImageIndex + 1);
+    }
+  }
+  if (touchEndX > touchStartX) {
+    // Swiped right, go to previous image
+    if (currentImageIndex > 0) {
+      updateModalImage(currentImageIndex - 1);
+    }
+  }
+}
+
+// Add touch event listeners to the image
+modalImg.addEventListener('touchstart', touchStart, false);
+modalImg.addEventListener('touchend', touchEnd, false);
+
+
 
   
