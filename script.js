@@ -129,6 +129,7 @@ span.onclick = function() {
 window.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
     modal.style.display = "none";
+    document.body.style.overflow = '';
   } else if (e.key === 'ArrowRight') {
     if (currentImageIndex < images.length - 1) {
       updateModalImage(currentImageIndex + 1);
