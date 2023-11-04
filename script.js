@@ -1,55 +1,63 @@
-// Copy to clipboard functionality and notification
-
 document.addEventListener("DOMContentLoaded", function() {
-    const paragraphs = document.querySelectorAll("p");
-    const headers = document.querySelectorAll("h1[data-section-id]");
-    const notification = document.getElementById("notification");
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints; // Check for touch device
 
-    const copyToClipboard = (element, headerText) => {
-        return function() {
-            const fullText = element.textContent.split('\n').map(line => line.trim()).join('\n').trim();
+    // If it's not a touch device, then attach the clipboard functionality
+    if (!isTouchDevice) {
+        const paragraphs = document.querySelectorAll("p");
+        const headers = document.querySelectorAll("h1[data-section-id]");
+        const notification = document.getElementById("notification");
 
-            // Copy to clipboard
-            const textarea = document.createElement("textarea");
-            textarea.value = fullText;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand("copy");
-            document.body.removeChild(textarea);
+        const copyToClipboard = (element, headerText) => {
+            return function() {
+                const fullText = element.textContent.split('\n').map(line => line.trim()).join('\n').trim();
 
-            // Display notification
-            if (element.tagName === "P") {
-                headerText = element.querySelector("strong") ? element.querySelector("strong").textContent : "Email";
-                notification.textContent = headerText + " copied to clipboard";
-            } else {
-                notification.textContent = '"' + headerText + '" section copied to clipboard';
-            }
-            
-            notification.style.display = "block";
-            notification.style.opacity = "1";
+                // Copy to clipboard
+                const textarea = document.createElement("textarea");
+                textarea.value = fullText;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textarea);
 
-            // Fade out notification after 3 seconds
-            setTimeout(() => {
-                notification.style.opacity = "0";
+                // Display notification
+                if (element.tagName === "P") {
+                    headerText = element.querySelector("strong") ? element.querySelector("strong").textContent : "Email";
+                    notification.textContent = headerText + " copied to clipboard";
+                } else {
+                    notification.textContent = '"' + headerText + '" section copied to clipboard';
+                }
+                
+                notification.style.display = "block";
+                notification.style.opacity = "1";
+
+                // Fade out notification after 3 seconds
                 setTimeout(() => {
-                    notification.style.display = "none";
-                }, 370); // Match the transition duration of the opacity
-            }, 3000);
+                    notification.style.opacity = "0";
+                    setTimeout(() => {
+                        notification.style.display = "none";
+                    }, 370); // Match the transition duration of the opacity
+                }, 3000);
+            };
         };
-    };
 
-    paragraphs.forEach(paragraph => {
-        paragraph.addEventListener("click", copyToClipboard(paragraph));
-    });
-
-    headers.forEach(header => {
-        header.addEventListener("click", function() {
-            const sectionId = header.getAttribute('data-section-id');
-            const section = document.getElementById(sectionId);
-            if (section) {
-                copyToClipboard(section, header.textContent)();
-            }
+        paragraphs.forEach(paragraph => {
+            paragraph.addEventListener("click", copyToClipboard(paragraph));
         });
+
+        headers.forEach(header => {
+            header.addEventListener("click", function() {
+                const sectionId = header.getAttribute('data-section-id');
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    copyToClipboard(section, header.textContent)();
+                }
+            });
+        });
+    }
+
+    // Hover effects can remain for touch devices as they do not interfere with functionality
+    const headers = document.querySelectorAll("h1[data-section-id]");
+    headers.forEach(header => {
         // Hover event listener
         header.addEventListener("mouseenter", function() {
             const sectionId = header.getAttribute('data-section-id');
@@ -69,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+
 
 // Scroll to anchor link pushed down to offset the logo
 
