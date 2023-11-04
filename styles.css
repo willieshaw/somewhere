@@ -408,6 +408,10 @@ uppercase {
         text-align: left;
     }
 
+    p:hover, h1:hover {
+        color: #000000;
+    }
+
     h1 {
         border: none;
         outline: none;
